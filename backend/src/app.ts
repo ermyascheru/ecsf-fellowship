@@ -18,7 +18,13 @@ const allowedOrigins = ENV.CORS_ORIGIN.split(',').map((o) => o.trim());
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps, curl, server-to-server) or localhost in dev
-    if (!origin || ENV.NODE_ENV === 'development' || allowedOrigins.includes(origin) || origin.endsWith('ecsf-fellowship.com')) {
+    if (
+      !origin ||
+      ENV.NODE_ENV === 'development' ||
+      allowedOrigins.includes(origin) ||
+      origin.endsWith('ecsf-fellowship.com') ||
+      origin.endsWith('vercel.app')
+    ) {
       callback(null, true);
     } else {
       callback(new Error(`Origin ${origin} not allowed by CORS`));
