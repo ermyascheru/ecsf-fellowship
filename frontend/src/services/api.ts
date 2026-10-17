@@ -1,7 +1,13 @@
 import axios from 'axios';
 
+const rawEnvUrl = String((import.meta as any).env?.VITE_API_URL || '').trim();
+// If empty or points to unconfigured custom domain, fallback to live Render backend
+const effectiveUrl = (!rawEnvUrl || rawEnvUrl.includes('ecsf-fellowship.com'))
+  ? 'https://ecsf-fellowship-1.onrender.com/api'
+  : (rawEnvUrl.endsWith('/api') ? rawEnvUrl : `${rawEnvUrl.replace(/\/+$/, '')}/api`);
+
 export const api = axios.create({
-  baseURL: (import.meta as any).env?.VITE_API_URL || 'https://ecsf-fellowship-1.onrender.com/api',
+  baseURL: effectiveUrl,
   headers: {
     'Content-Type': 'application/json',
   },
