@@ -24,7 +24,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
               fa.role, fa.is_active, p.full_name, p.phone, p.email
        FROM fellowship_accounts fa
        JOIN people p ON fa.person_id = p.person_id
-       WHERE LOWER(fa.username) = LOWER($1)`,
+       WHERE LOWER(fa.username) = LOWER($1) OR LOWER(p.email) = LOWER($1)`,
       [username.trim()]
     );
 
